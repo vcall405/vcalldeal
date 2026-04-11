@@ -360,22 +360,22 @@ export default function IsidraApp() {
           </div>
           <div className="grid md:grid-cols-3 gap-6">
             {PLANS.map((plan) => (
-              <div key={plan.name} className={`relative bg-white/8 backdrop-blur-md border-2 ${plan.color} rounded-2xl p-6 flex flex-col`}>
+              <div key={plan.name} className={`relative bg-white/90 backdrop-blur-md border-2 ${plan.color} rounded-2xl p-6 flex flex-col`}>
                 {plan.badge && (
                   <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-amber-500 text-gray-950 text-xs font-black px-4 py-1 rounded-full uppercase tracking-wide">
                     {plan.badge}
                   </span>
                 )}
-                <p className="text-lg font-black text-white mb-1">{plan.name}</p>
+                <p className="text-lg font-black text-gray-900 mb-1">{plan.name}</p>
                 <div className="flex items-end gap-1 mb-1">
-                  <span className="text-4xl font-black text-white">{plan.price}</span>
-                  <span className="text-gray-400 text-sm mb-1">{plan.period}</span>
+                  <span className="text-4xl font-black text-gray-900">{plan.price}</span>
+                  <span className="text-gray-600 text-sm mb-1">{plan.period}</span>
                 </div>
-                <p className="text-xs text-amber-400 font-semibold mb-4">{tx.plansPoints} {plan.points}</p>
+                <p className="text-xs text-amber-600 font-semibold mb-4">{tx.plansPoints} {plan.points}</p>
                 <ul className="space-y-2 mb-6 flex-1">
                   {plan.features.map((f) => (
-                    <li key={f} className="flex items-start gap-2 text-gray-300 text-sm">
-                      <span className="text-green-400 mt-0.5">✓</span>{f}
+                    <li key={f} className="flex items-start gap-2 text-gray-700 text-sm">
+                      <span className="text-green-600 mt-0.5">✓</span>{f}
                     </li>
                   ))}
                 </ul>
