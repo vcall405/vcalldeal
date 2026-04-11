@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 
 const SECRET_PIN = '0961';
 const STORAGE_KEY = 'isidra_gallery_v1';
@@ -38,7 +37,7 @@ function savePhotos(photos) {
   }
 }
 
-export default function GalleryPage() {
+export default function GalleryPage({ navigate }) {
   const [photos, setPhotos] = useState(loadPhotos);
   const [lightbox, setLightbox] = useState(null); // index of open photo
   const [showPinModal, setShowPinModal] = useState(false);
@@ -146,12 +145,12 @@ export default function GalleryPage() {
       {/* ── HEADER ── */}
       <header className="sticky top-0 z-40 bg-gray-950/90 backdrop-blur-md border-b border-white/10 px-6 py-4 flex items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <Link
-            to="/"
+          <button
+            onClick={() => navigate('#/')}
             className="flex items-center gap-1.5 text-gray-400 hover:text-white transition-colors text-sm font-semibold"
           >
             ← Inicio
-          </Link>
+          </button>
           <span className="text-gray-700">|</span>
           <div className="flex items-center gap-2">
             <span className="text-xl font-black text-white">Isidra Cosme</span>

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 
 const WHATSAPP_NUMBER = '17875797628';
 const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}`;
@@ -70,7 +69,7 @@ const STATS = [
   { value: '9+', label: 'Años en el mercado', color: 'text-purple-400' },
 ];
 
-export default function IsidraApp() {
+export default function IsidraApp({ navigate }) {
   const [lang, setLang] = useState('es');
   const [form, setForm] = useState({ name: '', phone: '', email: '', interest: 'member' });
   const [sent, setSent] = useState(false);
@@ -243,9 +242,9 @@ export default function IsidraApp() {
           <a href="#negocio" className="hover:text-amber-400 transition-colors">{tx.navBusiness}</a>
           <a href="#isidra" className="hover:text-amber-400 transition-colors">{tx.navAbout}</a>
           <a href="#contacto" className="hover:text-amber-400 transition-colors">{tx.navContact}</a>
-          <Link to="/galeria" className="hover:text-amber-400 transition-colors flex items-center gap-1">
+          <button onClick={() => navigate('#/galeria')} className="hover:text-amber-400 transition-colors flex items-center gap-1">
             📸 {lang === 'es' ? 'Mis Viajes' : 'My Travels'}
-          </Link>
+          </button>
         </nav>
         <div className="flex items-center gap-3 flex-shrink-0">
           {/* Language toggle */}
@@ -303,12 +302,12 @@ export default function IsidraApp() {
             >
               {tx.heroCta2}
             </a>
-            <Link
-              to="/galeria"
+            <button
+              onClick={() => navigate('#/galeria')}
               className="bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 text-white font-bold text-lg px-8 py-4 rounded-xl transition-colors flex items-center justify-center gap-2"
             >
               📸 {lang === 'es' ? 'Mis Viajes' : 'My Travels'}
-            </Link>
+            </button>
           </div>
 
           {/* Stats */}
