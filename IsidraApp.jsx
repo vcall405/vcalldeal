@@ -231,7 +231,7 @@ export default function IsidraApp() {
     <div className="min-h-screen bg-gray-950 text-white">
 
       {/* ── HEADER ── */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-gray-950 bg-opacity-95 border-b border-gray-800 px-6 py-4 flex items-center justify-between gap-4">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-gray-950/80 backdrop-blur-md border-b border-white/10 px-6 py-4 flex items-center justify-between gap-4">
         <div className="flex items-center gap-2 flex-shrink-0">
           <span className="text-xl font-black tracking-tight text-white">Isidra Cosme</span>
           <span className="hidden sm:inline text-xs font-semibold bg-blue-600 text-white px-2 py-0.5 rounded-full uppercase tracking-wide">inCruises</span>
@@ -314,43 +314,53 @@ export default function IsidraApp() {
       </section>
 
       {/* ── MEMBERSHIP BENEFITS ── */}
-      <section id="membresia" className="bg-gray-900 py-20 px-6">
-        <div className="max-w-5xl mx-auto">
+      <section
+        id="membresia"
+        className="relative py-20 px-6"
+        style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=1920&q=80)', backgroundSize: 'cover', backgroundPosition: 'center' }}
+      >
+        <div className="absolute inset-0 bg-gray-950/85" />
+        <div className="relative z-10 max-w-5xl mx-auto">
           <div className="text-center mb-14">
             <span className="text-blue-400 text-sm font-bold uppercase tracking-widest">{tx.benefitsBadge}</span>
             <h2 className="text-3xl md:text-4xl font-black mt-2">{tx.benefitsTitle}</h2>
           </div>
           <div className="grid md:grid-cols-2 gap-6">
             {tx.benefits.map((b) => (
-              <div key={b.title} className="bg-gray-950 border border-gray-800 rounded-2xl p-6 flex gap-4 hover:border-amber-500 transition-colors">
+              <div key={b.title} className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 flex gap-4 hover:bg-white/10 hover:border-amber-400/50 transition-all">
                 <span className="text-4xl">{b.icon}</span>
                 <div>
                   <h3 className="font-bold text-lg text-white mb-1">{b.title}</h3>
-                  <p className="text-gray-400 text-sm">{b.desc}</p>
+                  <p className="text-gray-300 text-sm">{b.desc}</p>
                 </div>
               </div>
             ))}
           </div>
-          <div className="mt-8 bg-gray-950 border border-gray-800 rounded-2xl p-5 flex flex-wrap gap-3 items-center justify-center">
-            <span className="text-gray-500 text-xs font-semibold uppercase tracking-wide">{lang === 'es' ? 'Alianzas oficiales:' : 'Official partners:'}</span>
-            <span className="bg-blue-900 text-blue-300 font-bold px-4 py-2 rounded-lg text-sm">🏰 Disney Cruises</span>
-            <span className="bg-purple-900 text-purple-300 font-bold px-4 py-2 rounded-lg text-sm">🚢 MSC Cruises</span>
-            <span className="bg-red-900 text-red-300 font-bold px-4 py-2 rounded-lg text-sm">⚓ Carnival</span>
+          <div className="mt-8 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-5 flex flex-wrap gap-3 items-center justify-center">
+            <span className="text-gray-400 text-xs font-semibold uppercase tracking-wide">{lang === 'es' ? 'Alianzas oficiales:' : 'Official partners:'}</span>
+            <span className="bg-blue-500/20 border border-blue-400/30 text-blue-200 font-bold px-4 py-2 rounded-lg text-sm backdrop-blur-sm">🏰 Disney Cruises</span>
+            <span className="bg-purple-500/20 border border-purple-400/30 text-purple-200 font-bold px-4 py-2 rounded-lg text-sm backdrop-blur-sm">🚢 MSC Cruises</span>
+            <span className="bg-red-500/20 border border-red-400/30 text-red-200 font-bold px-4 py-2 rounded-lg text-sm backdrop-blur-sm">⚓ Carnival</span>
           </div>
         </div>
       </section>
 
       {/* ── PLANS ── */}
-      <section id="planes" className="bg-gray-950 py-20 px-6">
-        <div className="max-w-5xl mx-auto">
+      <section
+        id="planes"
+        className="relative py-20 px-6"
+        style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80)', backgroundSize: 'cover', backgroundPosition: 'center' }}
+      >
+        <div className="absolute inset-0 bg-gray-950/88" />
+        <div className="relative z-10 max-w-5xl mx-auto">
           <div className="text-center mb-14">
             <span className="text-amber-400 text-sm font-bold uppercase tracking-widest">{tx.plansBadge}</span>
             <h2 className="text-3xl md:text-4xl font-black mt-2">{tx.plansTitle}</h2>
-            <p className="text-gray-400 mt-3">{tx.plansSub}</p>
+            <p className="text-gray-300 mt-3">{tx.plansSub}</p>
           </div>
           <div className="grid md:grid-cols-3 gap-6">
             {PLANS.map((plan) => (
-              <div key={plan.name} className={`relative bg-gray-900 border-2 ${plan.color} rounded-2xl p-6 flex flex-col`}>
+              <div key={plan.name} className={`relative bg-white/8 backdrop-blur-md border-2 ${plan.color} rounded-2xl p-6 flex flex-col`}>
                 {plan.badge && (
                   <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-amber-500 text-gray-950 text-xs font-black px-4 py-1 rounded-full uppercase tracking-wide">
                     {plan.badge}
@@ -380,21 +390,26 @@ export default function IsidraApp() {
               </div>
             ))}
           </div>
-          <p className="text-center text-gray-500 text-xs mt-4">{tx.plansActivation}</p>
+          <p className="text-center text-gray-400 text-xs mt-4">{tx.plansActivation}</p>
         </div>
       </section>
 
       {/* ── BUSINESS OPPORTUNITY ── */}
-      <section id="negocio" className="bg-gray-900 py-20 px-6">
-        <div className="max-w-5xl mx-auto">
+      <section
+        id="negocio"
+        className="relative py-20 px-6"
+        style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1513407030348-c983a97b98d8?auto=format&fit=crop&w=1920&q=80)', backgroundSize: 'cover', backgroundPosition: 'center' }}
+      >
+        <div className="absolute inset-0 bg-gray-950/85" />
+        <div className="relative z-10 max-w-5xl mx-auto">
           <div className="text-center mb-14">
             <span className="text-green-400 text-sm font-bold uppercase tracking-widest">{tx.bizBadge}</span>
             <h2 className="text-3xl md:text-4xl font-black mt-2">{tx.bizTitle}</h2>
-            <p className="text-gray-400 mt-4 max-w-2xl mx-auto">{tx.bizSub}</p>
+            <p className="text-gray-300 mt-4 max-w-2xl mx-auto">{tx.bizSub}</p>
           </div>
           <div className="grid md:grid-cols-2 gap-6 mb-14">
             {tx.bizItems.map((b) => (
-              <div key={b.title} className="bg-gray-950 border border-gray-800 rounded-2xl p-6 flex gap-4 hover:border-green-500 transition-colors">
+              <div key={b.title} className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 flex gap-4 hover:bg-white/10 hover:border-green-400/50 transition-all">
                 <span className="text-4xl">{b.icon}</span>
                 <div>
                   <h3 className="font-bold text-lg text-white mb-1">{b.title}</h3>
@@ -413,7 +428,7 @@ export default function IsidraApp() {
             </div>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {RANKS.map((rank) => (
-                <div key={rank.title} className={`bg-gradient-to-b ${rank.color} rounded-2xl p-5 text-center`}>
+                <div key={rank.title} className={`bg-gradient-to-b ${rank.color} bg-opacity-80 backdrop-blur-sm border border-white/20 rounded-2xl p-5 text-center`}>
                   <span className="text-3xl">{rank.icon}</span>
                   <p className="font-black text-sm mt-2 leading-tight">{rank.title}</p>
                   <p className="text-xs opacity-75 mt-1">{tx.ranksTlb}</p>
@@ -429,9 +444,14 @@ export default function IsidraApp() {
       </section>
 
       {/* ── ABOUT ISIDRA ── */}
-      <section id="isidra" className="bg-gray-950 py-20 px-6">
-        <div className="max-w-4xl mx-auto">
-          <div className="bg-gradient-to-br from-gray-900 to-gray-800 border border-gray-700 rounded-3xl p-8 md:p-12 flex flex-col md:flex-row gap-10 items-center">
+      <section
+        id="isidra"
+        className="relative py-20 px-6"
+        style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1502301103665-0b95cc738daf?auto=format&fit=crop&w=1920&q=80)', backgroundSize: 'cover', backgroundPosition: 'center' }}
+      >
+        <div className="absolute inset-0 bg-gray-950/80" />
+        <div className="relative z-10 max-w-4xl mx-auto">
+          <div className="bg-white/8 backdrop-blur-md border border-white/15 rounded-3xl p-8 md:p-12 flex flex-col md:flex-row gap-10 items-center">
             <div className="flex-shrink-0">
               <div className="w-40 h-40 rounded-full bg-gradient-to-br from-blue-600 to-amber-500 flex items-center justify-center text-7xl shadow-2xl">
                 👩
@@ -457,15 +477,20 @@ export default function IsidraApp() {
       </section>
 
       {/* ── CONTACT ── */}
-      <section id="contacto" className="bg-gray-900 py-20 px-6">
-        <div className="max-w-5xl mx-auto">
+      <section
+        id="contacto"
+        className="relative py-20 px-6"
+        style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1506197603052-3cc9c3a201bd?auto=format&fit=crop&w=1920&q=80)', backgroundSize: 'cover', backgroundPosition: 'center' }}
+      >
+        <div className="absolute inset-0 bg-gray-950/85" />
+        <div className="relative z-10 max-w-5xl mx-auto">
           <div className="text-center mb-14">
             <span className="text-amber-400 text-sm font-bold uppercase tracking-widest">{tx.contactBadge}</span>
             <h2 className="text-3xl md:text-4xl font-black mt-2">{tx.contactTitle}</h2>
-            <p className="text-gray-400 mt-4 max-w-xl mx-auto">{tx.contactSub}</p>
+            <p className="text-gray-300 mt-4 max-w-xl mx-auto">{tx.contactSub}</p>
           </div>
           <div className="grid md:grid-cols-2 gap-10">
-            <div className="bg-gray-950 border border-gray-800 rounded-2xl p-8">
+            <div className="bg-white/8 backdrop-blur-md border border-white/15 rounded-2xl p-8">
               {sent ? (
                 <div className="text-center py-10">
                   <span className="text-5xl">🎉</span>
@@ -516,7 +541,7 @@ export default function IsidraApp() {
                   <p>{tx.whatsappNum}</p>
                 </div>
               </a>
-              <div className="bg-gray-950 border border-gray-800 rounded-2xl p-6 space-y-3 text-sm text-gray-300">
+              <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 space-y-3 text-sm text-gray-300">
                 <p>🚢 {lang === 'es' ? 'Miembro Starter desde $50/mes + $100 activación' : 'Starter Membership from $50/mo + $100 activation'}</p>
                 <p>💼 {lang === 'es' ? 'Partner desde $395 (activación única)' : 'Partner from $395 (one-time activation)'}</p>
                 <p>✅ {lang === 'es' ? 'Garantía de devolución de 14 días' : '14-day money-back guarantee'}</p>
@@ -528,7 +553,7 @@ export default function IsidraApp() {
       </section>
 
       {/* ── FOOTER ── */}
-      <footer className="bg-gray-950 border-t border-gray-800 py-10 px-6 text-center">
+      <footer className="bg-gray-950/95 border-t border-white/10 backdrop-blur-sm py-10 px-6 text-center">
         <p className="text-xl font-black text-white mb-1">Isidra Cosme</p>
         <p className="text-blue-400 text-sm font-semibold mb-3">{tx.footerSub}</p>
         <p className="text-gray-500 text-sm">📞 +1 (787) 579-7628</p>
