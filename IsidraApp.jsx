@@ -3,72 +3,225 @@ import React, { useState } from 'react';
 const WHATSAPP_NUMBER = '17875797628';
 const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}`;
 
+const PLANS = [
+  {
+    name: 'Starter',
+    price: '$50',
+    period: '/mes',
+    color: 'border-blue-500',
+    badge: '',
+    points: '100 Reward Points/mes',
+    features: [
+      '17% descuento instantáneo en cruceros',
+      'Acceso a hoteles y resorts',
+      'Reward Points acumulables',
+      'Sin contratos a largo plazo',
+      'Garantía de 14 días',
+    ],
+  },
+  {
+    name: 'Classic',
+    price: '$100',
+    period: '/mes',
+    color: 'border-amber-500',
+    badge: 'Más Popular',
+    points: '200 Reward Points/mes',
+    features: [
+      '17% descuento instantáneo en cruceros',
+      'Acceso a hoteles y resorts',
+      'Doble de Reward Points',
+      'Reducción del precio hasta 50–100%',
+      'Sin contratos a largo plazo',
+      'Garantía de 14 días',
+    ],
+  },
+  {
+    name: 'Premium',
+    price: '$250',
+    period: '/mes',
+    color: 'border-purple-500',
+    badge: 'Mayor beneficio',
+    points: '500 Reward Points/mes',
+    features: [
+      '17% descuento instantáneo en cruceros',
+      'Acumulación acelerada de puntos',
+      'Acceso a viajes de lujo y alta gama',
+      'Reducción del precio hasta 50–100%',
+      'Sin contratos a largo plazo',
+      'Garantía de 14 días',
+    ],
+  },
+];
+
 const RANKS = [
-  { title: 'Marketing Director', bonus: '$20', color: 'from-blue-500 to-blue-700', icon: '🎯' },
-  { title: 'Senior Director', bonus: '$50', color: 'from-indigo-500 to-indigo-700', icon: '📈' },
-  { title: 'Executive Director', bonus: '$75', color: 'from-violet-500 to-violet-700', icon: '💼' },
-  { title: 'Vice President', bonus: '$100', color: 'from-purple-500 to-purple-700', icon: '🏆' },
-  { title: 'Royal Ambassador', bonus: '$150', color: 'from-amber-500 to-amber-700', icon: '👑' },
+  { title: 'Marketing Director', tlb: '$300', req: '$3,000 vol.', color: 'from-blue-600 to-blue-800', icon: '🎯' },
+  { title: 'Senior Director', tlb: '$1,000', req: '$10,000 vol.', color: 'from-indigo-600 to-indigo-800', icon: '📈' },
+  { title: 'Regional Director', tlb: '$2,500', req: '$25,000 vol.', color: 'from-violet-600 to-violet-800', icon: '🌎' },
+  { title: 'National Director', tlb: '$5,000', req: '$50,000 vol.', color: 'from-purple-600 to-purple-800', icon: '🏆' },
+  { title: 'Executive Director', tlb: '$25,000', req: '$250,000 vol.', color: 'from-rose-600 to-rose-800', icon: '💼' },
+  { title: 'Royal Ambassador', tlb: '$255,000', req: 'Nivel máximo', color: 'from-amber-500 to-amber-700', icon: '👑' },
 ];
 
-const BENEFITS = [
-  {
-    icon: '✈️',
-    title: 'Acceso a 190+ Países',
-    desc: 'Tu red de clientes viaja al mundo entero con precios preferenciales del club.',
-  },
-  {
-    icon: '💰',
-    title: 'Ahorro del 25% para Miembros',
-    desc: 'Cada miembro que activas ahorra un 25% en viajes, cruceros y experiencias.',
-  },
-  {
-    icon: '🚢',
-    title: 'Alianzas Disney, MSC y Carnival',
-    desc: 'Acceso exclusivo a las navieras más grandes del mundo para tus prospectos.',
-  },
-  {
-    icon: '🔄',
-    title: 'Ingresos Recurrentes',
-    desc: 'Comisiones mes a mes mientras tus miembros mantengan su membresía activa.',
-  },
-];
-
-const STEPS = [
-  {
-    num: '01',
-    title: 'Captura automática',
-    desc: 'Isidra capta el prospecto desde tu link, formulario o anuncio y lo registra al instante.',
-  },
-  {
-    num: '02',
-    title: 'Seguimiento 24/7',
-    desc: 'El agente de IA responde dudas, explica el plan de compensación y califica al prospecto sin que tú intervengas.',
-  },
-  {
-    num: '03',
-    title: 'Conversión guiada',
-    desc: 'Cuando el prospecto está listo, Isidra lo conecta contigo para el cierre. Tú solo cierras.',
-  },
-  {
-    num: '04',
-    title: 'Escalamiento de rango',
-    desc: 'El sistema monitorea tu volumen de equipo y te avisa cuándo estás cerca de subir de rango.',
-  },
+const STATS = [
+  { value: '108,000+', label: 'Pasajeros en 2024', color: 'text-amber-400' },
+  { value: '$33M+', label: 'Ahorrado por miembros en 2024', color: 'text-green-400' },
+  { value: '190+', label: 'Países disponibles', color: 'text-blue-400' },
+  { value: '9+', label: 'Años en el mercado', color: 'text-purple-400' },
 ];
 
 export default function IsidraApp() {
-  const [form, setForm] = useState({ name: '', phone: '', email: '', message: '' });
+  const [lang, setLang] = useState('es');
+  const [form, setForm] = useState({ name: '', phone: '', email: '', interest: 'member' });
   const [sent, setSent] = useState(false);
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+  const t = {
+    es: {
+      navBenefits: 'Membresía',
+      navPlans: 'Planes',
+      navBusiness: 'Negocio',
+      navAbout: 'Sobre Isidra',
+      navContact: 'Contacto',
+      navCta: 'Quiero saber más',
+      heroBadge: 'Club de Viajes #1 en el Mundo · inGroup International',
+      heroTitle: '¡Viaja más,',
+      heroTitleAccent: 'paga menos',
+      heroTitle2: 'y gana mientras viajas!',
+      heroSub: 'Únete al club de viajes que te da acceso exclusivo a cruceros, hoteles y resorts con hasta el 50–100% de descuento — o construye un negocio desde casa con ingresos recurrentes.',
+      heroCta1: 'Quiero ser Miembro',
+      heroCta2: '💬 Hablar con Isidra',
+      plansBadge: 'Membresía 3.0',
+      plansTitle: 'Escoge tu plan y empieza a viajar',
+      plansSub: 'Sin contratos a largo plazo. Cancela cuando quieras. Garantía de 14 días.',
+      plansPoints: 'Reward Points:',
+      plansJoin: 'Quiero este plan',
+      plansActivation: '* Cuota de activación única de $100 USD al inscribirse.',
+      benefitsBadge: 'Beneficios del Club',
+      benefitsTitle: '¿Por qué miles de familias eligen inCruises?',
+      benefits: [
+        { icon: '💰', title: '17% de descuento instantáneo', desc: 'Desde el primer día, ahorra en cruceros, hoteles y resorts sin esperar a acumular puntos.' },
+        { icon: '🎯', title: 'Reward Points que se duplican', desc: 'Cada pago mensual te genera el doble en Reward Points para reducir el precio de tu viaje hasta un 100%.' },
+        { icon: '🚢', title: 'Disney, MSC, Carnival y más', desc: 'Acceso exclusivo a las navieras más grandes del mundo con precios preferenciales del club.' },
+        { icon: '🌍', title: '190+ países y miles de resorts', desc: 'No solo cruceros — hoteles, resorts y experiencias en todo el mundo con inStays.' },
+      ],
+      bizBadge: 'Oportunidad de Negocio',
+      bizTitle: 'Gana mientras compartes lo que amas',
+      bizSub: 'Como Partner de inCruises, construyes un negocio real con ingresos recurrentes cada mes — simplemente invitando a otras personas a disfrutar del club.',
+      bizItems: [
+        { icon: '💵', title: 'Ingreso Recurrente', desc: 'Gana mínimo $5 por cada $100 de producción recurrente de tu equipo, mes tras mes.' },
+        { icon: '🏅', title: 'Team Leadership Bonus', desc: 'Bonos mensuales automáticos según tu rango, desde $300 hasta $255,000 al mes.' },
+        { icon: '🚀', title: 'Negocio desde casa', desc: 'Sin inventario, sin local, sin jefes. Solo tú, tu teléfono y tu red de contactos.' },
+        { icon: '✈️', title: 'Viaja mientras ganas', desc: 'Tu membresía te permite disfrutar el producto que promotes. Vive la experiencia de primera mano.' },
+      ],
+      ranksBadge: 'Rangos de Liderazgo',
+      ranksTitle: 'Tu crecimiento, recompensado',
+      ranksSub: 'El Team Leadership Bonus (TLB) se paga automáticamente el día 10 de cada mes.',
+      ranksTlb: 'Bono mensual',
+      ranksReq: 'Volumen requerido',
+      ranksRecurring: '+ Ingreso recurrente en todos los rangos según el volumen de tu equipo',
+      partnerJoin: 'Activación como Partner: $395 (cuota única)',
+      aboutBadge: 'Tu Representante',
+      aboutTitle: 'Isidra Cosme',
+      aboutSub: 'Partner de inGroup International / inCruises',
+      aboutP1: 'Soy Isidra Cosme, representante oficial de inCruises para la comunidad hispana en los Estados Unidos. Descubrí este club y cambió la forma en que mi familia viaja — y también la forma en que generamos ingresos.',
+      aboutP2: 'Hoy ayudo a familias como la tuya a acceder a viajes de calidad a precios accesibles, y a aquellos que buscan libertad financiera a construir su propio negocio con inCruises.',
+      aboutCta: 'Conversemos por WhatsApp',
+      contactBadge: 'Da el primer paso',
+      contactTitle: '¿Listo para viajar más y pagar menos?',
+      contactSub: 'Déjame tus datos y te explico todo personalmente — sin compromiso.',
+      formName: 'Nombre completo',
+      formPhone: 'Teléfono (WhatsApp)',
+      formEmail: 'Correo electrónico',
+      formInterest: 'Me interesa...',
+      formMember: 'Ser Miembro del club de viajes',
+      formPartner: 'Ser Partner y tener mi propio negocio',
+      formBoth: 'Conocer ambas opciones',
+      formSubmit: 'Enviar por WhatsApp →',
+      formSentTitle: '¡Mensaje enviado!',
+      formSentSub: 'Te responderé muy pronto. ¡Prepárate para viajar!',
+      whatsappLabel: 'Escríbeme directo por',
+      whatsappNum: 'WhatsApp +1 (787) 579-7628',
+      footerSub: 'Representante oficial de inGroup International / inCruises',
+      footerRights: '© 2025 Isidra Cosme · Todos los derechos reservados',
+    },
+    en: {
+      navBenefits: 'Membership',
+      navPlans: 'Plans',
+      navBusiness: 'Business',
+      navAbout: 'About Isidra',
+      navContact: 'Contact',
+      navCta: 'Learn More',
+      heroBadge: 'World\'s #1 Travel Club · inGroup International',
+      heroTitle: 'Travel more,',
+      heroTitleAccent: 'pay less',
+      heroTitle2: 'and earn while you travel!',
+      heroSub: 'Join the travel club that gives you exclusive access to cruises, hotels and resorts with up to 50–100% off — or build a home-based business with recurring income.',
+      heroCta1: 'I Want to Be a Member',
+      heroCta2: '💬 Talk to Isidra',
+      plansBadge: 'Membership 3.0',
+      plansTitle: 'Choose your plan and start traveling',
+      plansSub: 'No long-term contracts. Cancel anytime. 14-day money-back guarantee.',
+      plansPoints: 'Reward Points:',
+      plansJoin: 'I want this plan',
+      plansActivation: '* One-time $100 USD activation fee upon enrollment.',
+      benefitsBadge: 'Club Benefits',
+      benefitsTitle: 'Why thousands of families choose inCruises',
+      benefits: [
+        { icon: '💰', title: 'Instant 17% Discount', desc: 'From day one, save on cruises, hotels and resorts — no need to wait to accumulate points.' },
+        { icon: '🎯', title: 'Reward Points that Double', desc: 'Each monthly payment earns double Reward Points to reduce your trip price by up to 100%.' },
+        { icon: '🚢', title: 'Disney, MSC, Carnival & more', desc: "Exclusive access to the world's largest cruise lines at club-preferred pricing." },
+        { icon: '🌍', title: '190+ countries and thousands of resorts', desc: 'Not just cruises — hotels, resorts and experiences worldwide through inStays.' },
+      ],
+      bizBadge: 'Business Opportunity',
+      bizTitle: 'Earn while sharing what you love',
+      bizSub: 'As an inCruises Partner, you build a real business with monthly recurring income — simply by inviting others to enjoy the club.',
+      bizItems: [
+        { icon: '💵', title: 'Recurring Income', desc: 'Earn a minimum of $5 for every $100 of your team\'s recurring production, month after month.' },
+        { icon: '🏅', title: 'Team Leadership Bonus', desc: 'Monthly automatic bonuses based on your rank, from $300 up to $255,000 per month.' },
+        { icon: '🚀', title: 'Work from Home', desc: 'No inventory, no office, no boss. Just you, your phone and your network.' },
+        { icon: '✈️', title: 'Travel while you earn', desc: 'Your membership lets you enjoy the product you promote. Experience it firsthand.' },
+      ],
+      ranksBadge: 'Leadership Ranks',
+      ranksTitle: 'Your growth, rewarded',
+      ranksSub: 'The Team Leadership Bonus (TLB) is paid automatically on the 10th of each month.',
+      ranksTlb: 'Monthly bonus',
+      ranksReq: 'Required volume',
+      ranksRecurring: '+ Recurring income at all ranks based on your team\'s volume',
+      partnerJoin: 'Partner activation: $395 (one-time fee)',
+      aboutBadge: 'Your Representative',
+      aboutTitle: 'Isidra Cosme',
+      aboutSub: 'Partner at inGroup International / inCruises',
+      aboutP1: 'I\'m Isidra Cosme, official inCruises representative for the Hispanic community in the United States. I discovered this club and it changed the way my family travels — and the way we generate income.',
+      aboutP2: 'Today I help families like yours access quality travel at affordable prices, and those seeking financial freedom to build their own business with inCruises.',
+      aboutCta: 'Let\'s chat on WhatsApp',
+      contactBadge: 'Take the first step',
+      contactTitle: 'Ready to travel more and pay less?',
+      contactSub: 'Leave your details and I\'ll explain everything personally — no commitment.',
+      formName: 'Full name',
+      formPhone: 'Phone (WhatsApp)',
+      formEmail: 'Email address',
+      formInterest: "I'm interested in...",
+      formMember: 'Being a club Member',
+      formPartner: 'Being a Partner and owning my business',
+      formBoth: 'Learning about both options',
+      formSubmit: 'Send via WhatsApp →',
+      formSentTitle: 'Message sent!',
+      formSentSub: "I'll get back to you very soon. Get ready to travel!",
+      whatsappLabel: 'Message me directly on',
+      whatsappNum: 'WhatsApp +1 (787) 579-7628',
+      footerSub: 'Official Representative · inGroup International / inCruises',
+      footerRights: '© 2025 Isidra Cosme · All rights reserved',
+    },
   };
+
+  const tx = t[lang];
+
+  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const interestMap = { member: tx.formMember, partner: tx.formPartner, both: tx.formBoth };
     const text = encodeURIComponent(
-      `Hola Isidra! Me llamo ${form.name}. Mi teléfono es ${form.phone}. Email: ${form.email}. Mensaje: ${form.message}`
+      `Hola Isidra! Soy ${form.name}. Tel: ${form.phone}. Email: ${form.email}. Interés: ${interestMap[form.interest]}`
     );
     window.open(`${WHATSAPP_URL}?text=${text}`, '_blank');
     setSent(true);
@@ -78,129 +231,98 @@ export default function IsidraApp() {
     <div className="min-h-screen bg-gray-950 text-white">
 
       {/* ── HEADER ── */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-gray-950 bg-opacity-95 border-b border-gray-800 px-6 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <span className="text-2xl font-black tracking-tight text-white">ISIDRA</span>
-          <span className="text-xs font-semibold bg-amber-500 text-gray-950 px-2 py-0.5 rounded-full uppercase tracking-wide">AI</span>
+      <header className="fixed top-0 left-0 right-0 z-50 bg-gray-950 bg-opacity-95 border-b border-gray-800 px-6 py-4 flex items-center justify-between gap-4">
+        <div className="flex items-center gap-2 flex-shrink-0">
+          <span className="text-xl font-black tracking-tight text-white">Isidra Cosme</span>
+          <span className="hidden sm:inline text-xs font-semibold bg-blue-600 text-white px-2 py-0.5 rounded-full uppercase tracking-wide">inCruises</span>
         </div>
-        <nav className="hidden md:flex items-center gap-6 text-sm text-gray-300">
-          <a href="#beneficios" className="hover:text-amber-400 transition-colors">Beneficios</a>
-          <a href="#como-funciona" className="hover:text-amber-400 transition-colors">Cómo Funciona</a>
-          <a href="#rangos" className="hover:text-amber-400 transition-colors">Rangos</a>
-          <a href="#tecnologia" className="hover:text-amber-400 transition-colors">Tecnología</a>
-          <a href="#miguel" className="hover:text-amber-400 transition-colors">Sobre Miguel</a>
+        <nav className="hidden lg:flex items-center gap-5 text-sm text-gray-300">
+          <a href="#membresia" className="hover:text-amber-400 transition-colors">{tx.navBenefits}</a>
+          <a href="#planes" className="hover:text-amber-400 transition-colors">{tx.navPlans}</a>
+          <a href="#negocio" className="hover:text-amber-400 transition-colors">{tx.navBusiness}</a>
+          <a href="#isidra" className="hover:text-amber-400 transition-colors">{tx.navAbout}</a>
+          <a href="#contacto" className="hover:text-amber-400 transition-colors">{tx.navContact}</a>
         </nav>
-        <a
-          href={WHATSAPP_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="bg-amber-500 hover:bg-amber-400 text-gray-950 font-bold text-sm px-4 py-2 rounded-lg transition-colors"
-        >
-          Comenzar ahora
-        </a>
+        <div className="flex items-center gap-3 flex-shrink-0">
+          {/* Language toggle */}
+          <button
+            onClick={() => setLang(lang === 'es' ? 'en' : 'es')}
+            className="flex items-center gap-1.5 bg-gray-800 hover:bg-gray-700 border border-gray-700 text-sm font-semibold px-3 py-1.5 rounded-lg transition-colors"
+            aria-label="Cambiar idioma"
+          >
+            <span>{lang === 'es' ? '🇺🇸' : '🇵🇷'}</span>
+            <span>{lang === 'es' ? 'EN' : 'ES'}</span>
+          </button>
+          <a
+            href="#contacto"
+            className="bg-amber-500 hover:bg-amber-400 text-gray-950 font-bold text-sm px-4 py-2 rounded-lg transition-colors"
+          >
+            {tx.navCta}
+          </a>
+        </div>
       </header>
 
       {/* ── HERO ── */}
       <section
         className="relative min-h-screen flex items-center justify-center text-center pt-20"
         style={{
-          backgroundImage:
-            'url(https://images.unsplash.com/photo-1548574505-5e239809ee19?auto=format&fit=crop&w=1920&q=80)',
+          backgroundImage: 'url(https://images.unsplash.com/photo-1548574505-5e239809ee19?auto=format&fit=crop&w=1920&q=80)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
       >
-        <div className="absolute inset-0 bg-gray-950 bg-opacity-80" />
-        <div className="relative z-10 max-w-4xl mx-auto px-6 py-20">
-          <div className="inline-flex items-center gap-2 bg-gray-800 border border-gray-700 text-gray-300 text-xs font-medium px-4 py-2 rounded-full mb-6">
-            <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-            Powered by Google Cloud &amp; n8n Automation
+        <div className="absolute inset-0 bg-gray-950 bg-opacity-75" />
+        <div className="relative z-10 max-w-4xl mx-auto px-6 py-24">
+          <div className="inline-flex items-center gap-2 bg-blue-900 bg-opacity-60 border border-blue-700 text-blue-200 text-xs font-semibold px-4 py-2 rounded-full mb-6">
+            🚢 {tx.heroBadge}
           </div>
-          <h1 className="text-4xl md:text-6xl font-black leading-tight mb-6">
-            Escala tu Negocio de{' '}
-            <span className="text-amber-400">inCruises</span> con{' '}
-            <span className="text-blue-400">Automatización</span> Inteligente
+          <h1 className="text-5xl md:text-7xl font-black leading-tight mb-6">
+            {tx.heroTitle}{' '}
+            <span className="text-amber-400">{tx.heroTitleAccent}</span>
+            <br />{tx.heroTitle2}
           </h1>
-          <p className="text-xl md:text-2xl text-gray-300 mb-10 max-w-2xl mx-auto">
-            Convierte prospectos en Miembros y Partners{' '}
-            <span className="text-white font-bold">24/7</span> con agentes de IA integrados en tu WhatsApp — sin responder cada mensaje manualmente.
+          <p className="text-xl md:text-2xl text-gray-300 mb-10 max-w-2xl mx-auto leading-relaxed">
+            {tx.heroSub}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
-              href="#contacto"
-              className="bg-amber-500 hover:bg-amber-400 text-gray-950 font-black text-lg px-8 py-4 rounded-xl transition-colors shadow-lg shadow-amber-500/20"
+              href="#planes"
+              className="bg-amber-500 hover:bg-amber-400 text-gray-950 font-black text-lg px-8 py-4 rounded-xl transition-colors shadow-lg shadow-amber-500/25"
             >
-              Automatizar mi Negocio
+              {tx.heroCta1}
             </a>
             <a
               href={WHATSAPP_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-green-600 hover:bg-green-500 text-white font-bold text-lg px-8 py-4 rounded-xl transition-colors flex items-center justify-center gap-2"
+              className="bg-green-600 hover:bg-green-500 text-white font-bold text-lg px-8 py-4 rounded-xl transition-colors"
             >
-              <span>💬</span> WhatsApp Ahora
+              {tx.heroCta2}
             </a>
           </div>
-          {/* Stats bar */}
-          <div className="mt-16 grid grid-cols-3 gap-6 border-t border-gray-700 pt-10">
-            <div>
-              <p className="text-3xl font-black text-amber-400">190+</p>
-              <p className="text-sm text-gray-400 mt-1">Países disponibles</p>
-            </div>
-            <div>
-              <p className="text-3xl font-black text-blue-400">24/7</p>
-              <p className="text-sm text-gray-400 mt-1">Seguimiento automático</p>
-            </div>
-            <div>
-              <p className="text-3xl font-black text-green-400">25%</p>
-              <p className="text-sm text-gray-400 mt-1">Ahorro para miembros</p>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      {/* ── PAIN POINTS ── */}
-      <section className="bg-gray-900 py-20 px-6">
-        <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-black mb-4">
-            ¿Cuánto tiempo pierdes{' '}
-            <span className="text-red-400">explicando lo mismo</span> cada día?
-          </h2>
-          <p className="text-gray-400 text-lg mb-10">
-            La mayoría de los Partners de inCruises nunca escalan porque quedan atrapados en conversaciones repetitivas. Isidra resuelve eso.
-          </p>
-          <div className="grid md:grid-cols-2 gap-4 text-left">
-            {[
-              '❌  Responder las mismas preguntas sobre membresías una y otra vez',
-              '❌  Explicar el plan de compensación sin cerrar la venta',
-              '❌  Perder prospectos por no hacer seguimiento a tiempo',
-              '❌  No tener tiempo para crecer tu equipo y subir de rango',
-            ].map((item) => (
-              <div key={item} className="bg-gray-800 border border-red-900 rounded-xl p-4 text-gray-300 text-sm">
-                {item}
+          {/* Stats */}
+          <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6 border-t border-gray-700 pt-10">
+            {STATS.map((s) => (
+              <div key={s.label}>
+                <p className={`text-3xl font-black ${s.color}`}>{s.value}</p>
+                <p className="text-xs text-gray-400 mt-1">{s.label}</p>
               </div>
             ))}
           </div>
-          <div className="mt-10 bg-amber-500 bg-opacity-10 border border-amber-500 rounded-2xl p-6">
-            <p className="text-amber-400 font-bold text-xl">
-              Isidra hace todo eso por ti — automáticamente.
-            </p>
-          </div>
         </div>
       </section>
 
-      {/* ── CLUB BENEFITS ── */}
-      <section id="beneficios" className="bg-gray-950 py-20 px-6">
+      {/* ── MEMBERSHIP BENEFITS ── */}
+      <section id="membresia" className="bg-gray-900 py-20 px-6">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-14">
-            <span className="text-amber-400 text-sm font-bold uppercase tracking-widest">inGroup International / inCruises</span>
-            <h2 className="text-3xl md:text-4xl font-black mt-2">
-              Un producto que se vende solo — si tienes las herramientas correctas
-            </h2>
+            <span className="text-blue-400 text-sm font-bold uppercase tracking-widest">{tx.benefitsBadge}</span>
+            <h2 className="text-3xl md:text-4xl font-black mt-2">{tx.benefitsTitle}</h2>
           </div>
           <div className="grid md:grid-cols-2 gap-6">
-            {BENEFITS.map((b) => (
-              <div key={b.title} className="bg-gray-900 border border-gray-800 rounded-2xl p-6 flex gap-4 hover:border-amber-500 transition-colors">
+            {tx.benefits.map((b) => (
+              <div key={b.title} className="bg-gray-950 border border-gray-800 rounded-2xl p-6 flex gap-4 hover:border-amber-500 transition-colors">
                 <span className="text-4xl">{b.icon}</span>
                 <div>
                   <h3 className="font-bold text-lg text-white mb-1">{b.title}</h3>
@@ -209,267 +331,196 @@ export default function IsidraApp() {
               </div>
             ))}
           </div>
-          <div className="mt-10 bg-gray-900 border border-gray-800 rounded-2xl p-6 flex flex-wrap gap-6 items-center justify-center">
-            <span className="text-gray-400 text-sm font-semibold uppercase tracking-wide">Alianzas oficiales:</span>
+          <div className="mt-8 bg-gray-950 border border-gray-800 rounded-2xl p-5 flex flex-wrap gap-3 items-center justify-center">
+            <span className="text-gray-500 text-xs font-semibold uppercase tracking-wide">{lang === 'es' ? 'Alianzas oficiales:' : 'Official partners:'}</span>
             <span className="bg-blue-900 text-blue-300 font-bold px-4 py-2 rounded-lg text-sm">🏰 Disney Cruises</span>
             <span className="bg-purple-900 text-purple-300 font-bold px-4 py-2 rounded-lg text-sm">🚢 MSC Cruises</span>
             <span className="bg-red-900 text-red-300 font-bold px-4 py-2 rounded-lg text-sm">⚓ Carnival</span>
-            <span className="bg-gray-800 text-gray-300 font-bold px-4 py-2 rounded-lg text-sm">🌐 inGroup International</span>
           </div>
         </div>
       </section>
 
-      {/* ── HOW IT WORKS ── */}
-      <section id="como-funciona" className="bg-gray-900 py-20 px-6">
+      {/* ── PLANS ── */}
+      <section id="planes" className="bg-gray-950 py-20 px-6">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-14">
-            <span className="text-blue-400 text-sm font-bold uppercase tracking-widest">Proceso Automatizado</span>
-            <h2 className="text-3xl md:text-4xl font-black mt-2">
-              Isidra trabaja mientras tú descansas
-            </h2>
+            <span className="text-amber-400 text-sm font-bold uppercase tracking-widest">{tx.plansBadge}</span>
+            <h2 className="text-3xl md:text-4xl font-black mt-2">{tx.plansTitle}</h2>
+            <p className="text-gray-400 mt-3">{tx.plansSub}</p>
           </div>
-          <div className="grid md:grid-cols-2 gap-6">
-            {STEPS.map((step) => (
-              <div key={step.num} className="bg-gray-950 border border-gray-800 rounded-2xl p-6 hover:border-blue-500 transition-colors">
-                <span className="text-5xl font-black text-blue-500 opacity-40">{step.num}</span>
-                <h3 className="text-lg font-bold text-white mt-2 mb-2">{step.title}</h3>
-                <p className="text-gray-400 text-sm">{step.desc}</p>
+          <div className="grid md:grid-cols-3 gap-6">
+            {PLANS.map((plan) => (
+              <div key={plan.name} className={`relative bg-gray-900 border-2 ${plan.color} rounded-2xl p-6 flex flex-col`}>
+                {plan.badge && (
+                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-amber-500 text-gray-950 text-xs font-black px-4 py-1 rounded-full uppercase tracking-wide">
+                    {plan.badge}
+                  </span>
+                )}
+                <p className="text-lg font-black text-white mb-1">{plan.name}</p>
+                <div className="flex items-end gap-1 mb-1">
+                  <span className="text-4xl font-black text-white">{plan.price}</span>
+                  <span className="text-gray-400 text-sm mb-1">{plan.period}</span>
+                </div>
+                <p className="text-xs text-amber-400 font-semibold mb-4">{tx.plansPoints} {plan.points}</p>
+                <ul className="space-y-2 mb-6 flex-1">
+                  {plan.features.map((f) => (
+                    <li key={f} className="flex items-start gap-2 text-gray-300 text-sm">
+                      <span className="text-green-400 mt-0.5">✓</span>{f}
+                    </li>
+                  ))}
+                </ul>
+                <a
+                  href={`${WHATSAPP_URL}?text=${encodeURIComponent(`Hola Isidra! Quiero saber más sobre el plan ${plan.name} de inCruises.`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full bg-amber-500 hover:bg-amber-400 text-gray-950 font-black py-3 rounded-xl text-center transition-colors text-sm"
+                >
+                  {tx.plansJoin}
+                </a>
               </div>
             ))}
           </div>
+          <p className="text-center text-gray-500 text-xs mt-4">{tx.plansActivation}</p>
         </div>
       </section>
 
-      {/* ── RANKS ── */}
-      <section id="rangos" className="bg-gray-950 py-20 px-6">
+      {/* ── BUSINESS OPPORTUNITY ── */}
+      <section id="negocio" className="bg-gray-900 py-20 px-6">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-14">
-            <span className="text-amber-400 text-sm font-bold uppercase tracking-widest">Plan de Compensación</span>
-            <h2 className="text-3xl md:text-4xl font-black mt-2">
-              De Marketing Director a Royal Ambassador —{' '}
-              <span className="text-amber-400">Isidra te lleva ahí</span>
-            </h2>
-            <p className="text-gray-400 mt-4 max-w-2xl mx-auto">
-              El sistema monitorea tu crecimiento, explica los bonos automáticamente y te avisa cuándo estás a un paso de subir de rango.
-            </p>
+            <span className="text-green-400 text-sm font-bold uppercase tracking-widest">{tx.bizBadge}</span>
+            <h2 className="text-3xl md:text-4xl font-black mt-2">{tx.bizTitle}</h2>
+            <p className="text-gray-400 mt-4 max-w-2xl mx-auto">{tx.bizSub}</p>
           </div>
-          <div className="grid md:grid-cols-5 gap-4">
-            {RANKS.map((rank) => (
-              <div key={rank.title} className={`bg-gradient-to-b ${rank.color} rounded-2xl p-5 text-center`}>
-                <span className="text-4xl">{rank.icon}</span>
-                <p className="font-bold text-sm mt-3 leading-tight">{rank.title}</p>
-                <p className="text-2xl font-black mt-2">{rank.bonus}</p>
-                <p className="text-xs opacity-75 mt-1">bono por partner</p>
+          <div className="grid md:grid-cols-2 gap-6 mb-14">
+            {tx.bizItems.map((b) => (
+              <div key={b.title} className="bg-gray-950 border border-gray-800 rounded-2xl p-6 flex gap-4 hover:border-green-500 transition-colors">
+                <span className="text-4xl">{b.icon}</span>
+                <div>
+                  <h3 className="font-bold text-lg text-white mb-1">{b.title}</h3>
+                  <p className="text-gray-400 text-sm">{b.desc}</p>
+                </div>
               </div>
             ))}
           </div>
-          <p className="text-center text-gray-500 text-sm mt-6">
-            + Pagos recurrentes mientras tus miembros mantengan la membresía activa
-          </p>
-        </div>
-      </section>
 
-      {/* ── TECHNOLOGY ── */}
-      <section id="tecnologia" className="bg-gray-900 py-20 px-6">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-14">
-            <span className="text-green-400 text-sm font-bold uppercase tracking-widest">Infraestructura Enterprise</span>
-            <h2 className="text-3xl md:text-4xl font-black mt-2">
-              Tecnología de clase mundial al servicio de tu negocio
-            </h2>
-          </div>
-          <div className="grid md:grid-cols-3 gap-6 mb-10">
-            <div className="bg-gray-950 border border-gray-800 rounded-2xl p-6 text-center hover:border-blue-500 transition-colors">
-              <span className="text-5xl">☁️</span>
-              <h3 className="font-bold text-lg mt-4 mb-2">Google Cloud</h3>
-              <p className="text-gray-400 text-sm">
-                Infraestructura de nivel empresarial con 99.9% de disponibilidad. Tu negocio nunca para.
-              </p>
+          {/* Ranks */}
+          <div id="rangos">
+            <div className="text-center mb-10">
+              <span className="text-amber-400 text-sm font-bold uppercase tracking-widest">{tx.ranksBadge}</span>
+              <h3 className="text-2xl md:text-3xl font-black mt-2">{tx.ranksTitle}</h3>
+              <p className="text-gray-400 mt-2 text-sm">{tx.ranksSub}</p>
             </div>
-            <div className="bg-gray-950 border border-gray-800 rounded-2xl p-6 text-center hover:border-purple-500 transition-colors">
-              <span className="text-5xl">⚙️</span>
-              <h3 className="font-bold text-lg mt-4 mb-2">Flujos n8n</h3>
-              <p className="text-gray-400 text-sm">
-                Automatizaciones visuales que conectan WhatsApp, CRM, correo y más — sin código.
-              </p>
-            </div>
-            <div className="bg-gray-950 border border-gray-800 rounded-2xl p-6 text-center hover:border-green-500 transition-colors">
-              <span className="text-5xl">🤖</span>
-              <h3 className="font-bold text-lg mt-4 mb-2">Agentes de IA</h3>
-              <p className="text-gray-400 text-sm">
-                Agentes entrenados en el plan de compensación de inCruises que responden como un experto humano.
-              </p>
-            </div>
-          </div>
-          <div className="bg-gray-950 border border-gray-700 rounded-2xl p-8">
-            <h3 className="text-xl font-bold mb-4 text-white">Lo que el sistema explica automáticamente:</h3>
-            <div className="grid md:grid-cols-2 gap-3">
-              {[
-                '✅ Cómo funciona la membresía y el Reward Points',
-                '✅ Plan de compensación completo (bonos $20–$150)',
-                '✅ Diferencia entre Miembro y Partner',
-                '✅ Proceso de activación y primeros pasos',
-                '✅ Cómo llegar al siguiente rango de liderazgo',
-                '✅ Comparativa con otros clubes de viaje',
-              ].map((item) => (
-                <p key={item} className="text-gray-300 text-sm">{item}</p>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              {RANKS.map((rank) => (
+                <div key={rank.title} className={`bg-gradient-to-b ${rank.color} rounded-2xl p-5 text-center`}>
+                  <span className="text-3xl">{rank.icon}</span>
+                  <p className="font-black text-sm mt-2 leading-tight">{rank.title}</p>
+                  <p className="text-xs opacity-75 mt-1">{tx.ranksTlb}</p>
+                  <p className="text-2xl font-black mt-1">{rank.tlb}</p>
+                  <p className="text-xs opacity-60 mt-1">{rank.req}</p>
+                </div>
               ))}
             </div>
-            <div className="mt-6 pt-6 border-t border-gray-800 flex flex-wrap gap-4">
-              <span className="bg-blue-900 text-blue-300 text-xs font-semibold px-3 py-1 rounded-full">CLIA Compliant</span>
-              <span className="bg-purple-900 text-purple-300 text-xs font-semibold px-3 py-1 rounded-full">Seller of Travel</span>
-              <span className="bg-green-900 text-green-300 text-xs font-semibold px-3 py-1 rounded-full">WhatsApp Business API</span>
-              <span className="bg-amber-900 text-amber-300 text-xs font-semibold px-3 py-1 rounded-full">100% Automatizado</span>
-            </div>
+            <p className="text-center text-gray-500 text-xs mt-4">{tx.ranksRecurring}</p>
+            <p className="text-center text-amber-400 text-sm font-semibold mt-2">{tx.partnerJoin}</p>
           </div>
         </div>
       </section>
 
-      {/* ── ABOUT MIGUEL ── */}
-      <section id="miguel" className="bg-gray-950 py-20 px-6">
+      {/* ── ABOUT ISIDRA ── */}
+      <section id="isidra" className="bg-gray-950 py-20 px-6">
         <div className="max-w-4xl mx-auto">
           <div className="bg-gradient-to-br from-gray-900 to-gray-800 border border-gray-700 rounded-3xl p-8 md:p-12 flex flex-col md:flex-row gap-10 items-center">
             <div className="flex-shrink-0">
-              <div className="w-36 h-36 rounded-full bg-gradient-to-br from-blue-600 to-amber-500 flex items-center justify-center text-6xl shadow-xl">
-                👨‍💻
+              <div className="w-40 h-40 rounded-full bg-gradient-to-br from-blue-600 to-amber-500 flex items-center justify-center text-7xl shadow-2xl">
+                👩
               </div>
             </div>
             <div>
-              <span className="text-amber-400 text-sm font-bold uppercase tracking-widest">El arquitecto detrás de Isidra</span>
-              <h2 className="text-3xl font-black mt-2 mb-4">Miguel Fuentes</h2>
-              <p className="text-gray-300 leading-relaxed mb-4">
-                Miguel combina su experiencia en <span className="text-white font-semibold">derecho</span> y{' '}
-                <span className="text-white font-semibold">arquitectura de sistemas</span> para construir herramientas que no solo automatizan, sino que cumplen con las regulaciones de la industria de viajes.
-              </p>
-              <p className="text-gray-300 leading-relaxed mb-6">
-                Cada flujo de Isidra fue diseñado respetando las normativas de <span className="text-blue-400 font-semibold">CLIA</span> y los estándares de{' '}
-                <span className="text-blue-400 font-semibold">Seller of Travel</span> — para que tú escales con total confianza legal y técnica.
-              </p>
-              <div className="flex flex-wrap gap-3">
-                <span className="bg-gray-700 text-gray-300 text-xs font-semibold px-3 py-1.5 rounded-full">⚖️ Experiencia Legal</span>
-                <span className="bg-gray-700 text-gray-300 text-xs font-semibold px-3 py-1.5 rounded-full">☁️ Google Cloud Architect</span>
-                <span className="bg-gray-700 text-gray-300 text-xs font-semibold px-3 py-1.5 rounded-full">⚙️ Especialista n8n</span>
-                <span className="bg-gray-700 text-gray-300 text-xs font-semibold px-3 py-1.5 rounded-full">🛡️ CLIA &amp; Seller of Travel</span>
-              </div>
+              <span className="text-amber-400 text-sm font-bold uppercase tracking-widest">{tx.aboutBadge}</span>
+              <h2 className="text-3xl font-black mt-2 mb-1">{tx.aboutTitle}</h2>
+              <p className="text-blue-400 text-sm font-semibold mb-4">{tx.aboutSub}</p>
+              <p className="text-gray-300 leading-relaxed mb-4">{tx.aboutP1}</p>
+              <p className="text-gray-300 leading-relaxed mb-6">{tx.aboutP2}</p>
+              <a
+                href={WHATSAPP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-500 text-white font-bold px-6 py-3 rounded-xl transition-colors"
+              >
+                💬 {tx.aboutCta}
+              </a>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── CONTACT / CTA ── */}
+      {/* ── CONTACT ── */}
       <section id="contacto" className="bg-gray-900 py-20 px-6">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-14">
-            <span className="text-amber-400 text-sm font-bold uppercase tracking-widest">Da el primer paso</span>
-            <h2 className="text-3xl md:text-4xl font-black mt-2">
-              Automatiza tu negocio hoy
-            </h2>
-            <p className="text-gray-400 mt-4 max-w-xl mx-auto">
-              Déjanos tus datos y un agente de Isidra se pondrá en contacto contigo en menos de 24 horas — o escríbenos directamente por WhatsApp.
-            </p>
+            <span className="text-amber-400 text-sm font-bold uppercase tracking-widest">{tx.contactBadge}</span>
+            <h2 className="text-3xl md:text-4xl font-black mt-2">{tx.contactTitle}</h2>
+            <p className="text-gray-400 mt-4 max-w-xl mx-auto">{tx.contactSub}</p>
           </div>
           <div className="grid md:grid-cols-2 gap-10">
-            {/* Form */}
             <div className="bg-gray-950 border border-gray-800 rounded-2xl p-8">
               {sent ? (
                 <div className="text-center py-10">
                   <span className="text-5xl">🎉</span>
-                  <p className="text-xl font-bold mt-4 text-green-400">¡Mensaje enviado!</p>
-                  <p className="text-gray-400 mt-2">Te responderemos muy pronto por WhatsApp.</p>
+                  <p className="text-xl font-bold mt-4 text-green-400">{tx.formSentTitle}</p>
+                  <p className="text-gray-400 mt-2">{tx.formSentSub}</p>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
-                    <label className="block text-sm text-gray-400 mb-1">Nombre completo</label>
-                    <input
-                      type="text"
-                      name="name"
-                      value={form.name}
-                      onChange={handleChange}
-                      required
-                      placeholder="Tu nombre"
-                      className="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-amber-500 transition-colors"
-                    />
+                    <label className="block text-sm text-gray-400 mb-1">{tx.formName}</label>
+                    <input type="text" name="name" value={form.name} onChange={handleChange} required
+                      className="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-amber-500 transition-colors" />
                   </div>
                   <div>
-                    <label className="block text-sm text-gray-400 mb-1">Teléfono (WhatsApp)</label>
-                    <input
-                      type="tel"
-                      name="phone"
-                      value={form.phone}
-                      onChange={handleChange}
-                      required
+                    <label className="block text-sm text-gray-400 mb-1">{tx.formPhone}</label>
+                    <input type="tel" name="phone" value={form.phone} onChange={handleChange} required
                       placeholder="+1 (000) 000-0000"
-                      className="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-amber-500 transition-colors"
-                    />
+                      className="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-amber-500 transition-colors" />
                   </div>
                   <div>
-                    <label className="block text-sm text-gray-400 mb-1">Correo electrónico</label>
-                    <input
-                      type="email"
-                      name="email"
-                      value={form.email}
-                      onChange={handleChange}
-                      required
-                      placeholder="tu@email.com"
-                      className="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-amber-500 transition-colors"
-                    />
+                    <label className="block text-sm text-gray-400 mb-1">{tx.formEmail}</label>
+                    <input type="email" name="email" value={form.email} onChange={handleChange} required
+                      className="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-amber-500 transition-colors" />
                   </div>
                   <div>
-                    <label className="block text-sm text-gray-400 mb-1">¿Cuál es tu situación actual?</label>
-                    <textarea
-                      name="message"
-                      value={form.message}
-                      onChange={handleChange}
-                      rows={3}
-                      placeholder="Ej: Soy Partner de inCruises con 3 meses y quiero escalar..."
-                      className="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-amber-500 transition-colors resize-none"
-                    />
+                    <label className="block text-sm text-gray-400 mb-1">{tx.formInterest}</label>
+                    <select name="interest" value={form.interest} onChange={handleChange}
+                      className="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-amber-500 transition-colors">
+                      <option value="member">{tx.formMember}</option>
+                      <option value="partner">{tx.formPartner}</option>
+                      <option value="both">{tx.formBoth}</option>
+                    </select>
                   </div>
-                  <button
-                    type="submit"
-                    className="w-full bg-amber-500 hover:bg-amber-400 text-gray-950 font-black py-4 rounded-xl text-lg transition-colors shadow-lg shadow-amber-500/20"
-                  >
-                    Automatizar mi Negocio →
+                  <button type="submit"
+                    className="w-full bg-amber-500 hover:bg-amber-400 text-gray-950 font-black py-4 rounded-xl text-lg transition-colors shadow-lg shadow-amber-500/20">
+                    {tx.formSubmit}
                   </button>
                 </form>
               )}
             </div>
 
-            {/* Direct WhatsApp + info */}
-            <div className="flex flex-col gap-6">
-              <a
-                href={WHATSAPP_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-green-600 hover:bg-green-500 text-white font-black text-xl px-8 py-6 rounded-2xl flex items-center justify-center gap-3 transition-colors shadow-lg shadow-green-600/20"
-              >
+            <div className="flex flex-col gap-5">
+              <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer"
+                className="bg-green-600 hover:bg-green-500 text-white font-black text-xl px-8 py-6 rounded-2xl flex items-center gap-3 transition-colors shadow-lg shadow-green-600/20">
                 <span className="text-3xl">💬</span>
-                <div className="text-left">
-                  <p className="text-sm font-normal opacity-80">Escríbenos directo por</p>
-                  <p>WhatsApp +1 (787) 579-7628</p>
+                <div>
+                  <p className="text-sm font-normal opacity-80">{tx.whatsappLabel}</p>
+                  <p>{tx.whatsappNum}</p>
                 </div>
               </a>
-
-              <div className="bg-gray-950 border border-gray-800 rounded-2xl p-6">
-                <h3 className="font-bold text-lg mb-4 text-white">¿Por qué actuar hoy?</h3>
-                <ul className="space-y-3 text-gray-300 text-sm">
-                  {[
-                    '🚀 Cada día sin automatización es un prospecto perdido',
-                    '💸 Los bonos de rango se acumulan — el sistema nunca duerme',
-                    '🏆 Los Partners que automatizan escalan 3x más rápido',
-                    '🔒 Configuración única — el sistema trabaja por años',
-                  ].map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="bg-gray-950 border border-gray-800 rounded-2xl p-6">
-                <p className="text-sm text-gray-400 leading-relaxed">
-                  <span className="text-white font-semibold">Cumplimiento garantizado:</span> Todos los flujos de Isidra operan bajo las regulaciones de{' '}
-                  <span className="text-blue-400">CLIA</span> y <span className="text-blue-400">Seller of Travel</span>, protegiendo tu negocio en todo momento.
-                </p>
+              <div className="bg-gray-950 border border-gray-800 rounded-2xl p-6 space-y-3 text-sm text-gray-300">
+                <p>🚢 {lang === 'es' ? 'Miembro Starter desde $50/mes + $100 activación' : 'Starter Membership from $50/mo + $100 activation'}</p>
+                <p>💼 {lang === 'es' ? 'Partner desde $395 (activación única)' : 'Partner from $395 (one-time activation)'}</p>
+                <p>✅ {lang === 'es' ? 'Garantía de devolución de 14 días' : '14-day money-back guarantee'}</p>
+                <p>🌍 {lang === 'es' ? 'Disponible en 190+ países' : 'Available in 190+ countries'}</p>
               </div>
             </div>
           </div>
@@ -478,19 +529,10 @@ export default function IsidraApp() {
 
       {/* ── FOOTER ── */}
       <footer className="bg-gray-950 border-t border-gray-800 py-10 px-6 text-center">
-        <div className="flex items-center justify-center gap-2 mb-4">
-          <span className="text-2xl font-black text-white">ISIDRA</span>
-          <span className="text-xs font-semibold bg-amber-500 text-gray-950 px-2 py-0.5 rounded-full uppercase tracking-wide">AI</span>
-        </div>
-        <p className="text-gray-400 text-sm mb-2">
-          Automatización inteligente para Partners de inGroup International / inCruises
-        </p>
-        <p className="text-gray-500 text-sm">
-          📞 +1 (787) 579-7628 &nbsp;|&nbsp; Arquitecto: Miguel Fuentes
-        </p>
-        <p className="text-gray-600 text-xs mt-4">
-          © 2025 Isidra AI — Todos los derechos reservados. CLIA &amp; Seller of Travel Compliant.
-        </p>
+        <p className="text-xl font-black text-white mb-1">Isidra Cosme</p>
+        <p className="text-blue-400 text-sm font-semibold mb-3">{tx.footerSub}</p>
+        <p className="text-gray-500 text-sm">📞 +1 (787) 579-7628</p>
+        <p className="text-gray-600 text-xs mt-4">{tx.footerRights}</p>
       </footer>
 
     </div>
