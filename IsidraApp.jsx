@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const WHATSAPP_NUMBER = '14076131050';
+const WHATSAPP_NUMBER = '17875797628';
 const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}`;
 
 const RANKS = [
@@ -447,7 +447,7 @@ export default function IsidraApp() {
                 <span className="text-3xl">💬</span>
                 <div className="text-left">
                   <p className="text-sm font-normal opacity-80">Escríbenos directo por</p>
-                  <p>WhatsApp +1 (407) 613-1050</p>
+                  <p>WhatsApp +1 (787) 579-7628</p>
                 </div>
               </a>
 
@@ -486,7 +486,7 @@ export default function IsidraApp() {
           Automatización inteligente para Partners de inGroup International / inCruises
         </p>
         <p className="text-gray-500 text-sm">
-          📞 +1 (407) 613-1050 &nbsp;|&nbsp; Arquitecto: Miguel Fuentes
+          📞 +1 (787) 579-7628 &nbsp;|&nbsp; Arquitecto: Miguel Fuentes
         </p>
         <p className="text-gray-600 text-xs mt-4">
           © 2025 Isidra AI — Todos los derechos reservados. CLIA &amp; Seller of Travel Compliant.
