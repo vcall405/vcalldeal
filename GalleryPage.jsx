@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-const API_URL = 'https://vcalldeal-gallery.vercel.app';
+const API_URL = 'https://vcalldeal.vercel.app';
 const SECRET_PIN = '0961'; // client-side UX only; server validates too
 
 function compressImage(file, maxWidth = 1400, quality = 0.78) {
