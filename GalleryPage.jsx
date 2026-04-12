@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-const API_URL = 'https://gallery.vcallia.com';
+const API_URL = 'https://vcalldeal.vercel.app';
 const SECRET_PIN = '0961'; // client-side UX only; server validates too
 
 function compressImage(file, maxWidth = 1400, quality = 0.78) {
@@ -35,7 +35,7 @@ export default function GalleryPage({ navigate }) {
 
   // Load photos from API on mount
   useEffect(() => {
-    fetch(`${API_URL}/api/photos`)
+    fetch(`${API_URL}/api/gallery`)
       .then((r) => r.json())
       .then(setPhotos)
       .catch(() => {})
@@ -121,7 +121,7 @@ export default function GalleryPage({ navigate }) {
       });
 
       try {
-        const res = await fetch(`${API_URL}/api/upload`, {
+        const res = await fetch(`${API_URL}/api/gallery`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ pin: confirmedPinRef.current, src: compressed, uploadedAt }),
