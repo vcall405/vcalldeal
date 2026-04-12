@@ -29,9 +29,11 @@ export default function GalleryPage({ navigate }) {
   const [pinError, setPinError] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState(false);
+  const [deleteMode, setDeleteMode] = useState(false); // true when PIN modal opened for delete
   const fileInputRef = useRef(null);
   const pinRefs = [useRef(), useRef(), useRef(), useRef()];
   const confirmedPinRef = useRef(''); // holds PIN between modal confirm and file upload
+  const pendingDeleteRef = useRef(null); // holds photo to delete
 
   // Load photos from API on mount
   useEffect(() => {
@@ -103,7 +105,42 @@ export default function GalleryPage({ navigate }) {
     setShowPinModal(false);
     setPin(['', '', '', '']);
     setPinError(false);
-    fileInputRef.current?.click();
+    if (deleteMode) {
+      handleDelete(full);
+      setDeleteMode(false);
+    } else {
+      fileInputRef.current?.click();
+    }
+  };
+
+  const openDeleteModal = (photo, e) => {
+    e.stopPropagation();
+    pendingDeleteRef.current = photo;
+    setDeleteMode(true);
+    setPinError(false);
+    setPin(['', '', '', '']);
+    setShowPinModal(true);
+  };
+
+  const handleDelete = async (pin) => {
+    const photo = pendingDeleteRef.current;
+    if (!photo) return;
+    try {
+      const res = await fetch(`${API_URL}/api/gallery`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pin, id: photo.id, src: photo.src }),
+      });
+      if (res.ok) {
+        setPhotos((prev) => prev.filter((p) => p.id !== photo.id));
+      } else {
+        setUploadError(true);
+      }
+    } catch {
+      setUploadError(true);
+    }
+    pendingDeleteRef.current = null;
+    confirmedPinRef.current = '';
   };
 
   const handleFiles = async (e) => {
@@ -232,6 +269,14 @@ export default function GalleryPage({ navigate }) {
                     {photo.uploadedAt}
                   </p>
                 </div>
+                {/* Delete button */}
+                <button
+                  onClick={(e) => openDeleteModal(photo, e)}
+                  className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity bg-black/60 hover:bg-red-600 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm"
+                  title="Eliminar foto"
+                >
+                  🗑
+                </button>
               </div>
             ))}
           </div>
@@ -286,12 +331,16 @@ export default function GalleryPage({ navigate }) {
       {showPinModal && (
         <div
           className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center px-4"
-          onClick={(e) => { if (e.target === e.currentTarget) { setShowPinModal(false); setPin(['', '', '', '']); }}}
+          onClick={(e) => { if (e.target === e.currentTarget) { setShowPinModal(false); setPin(['', '', '', '']); setDeleteMode(false); }}}
         >
           <div className="bg-gray-900 border border-white/15 rounded-3xl p-8 w-full max-w-sm text-center shadow-2xl">
-            <div className="text-5xl mb-4">🔐</div>
-            <h2 className="text-xl font-black text-white mb-1">Acceso restringido</h2>
-            <p className="text-gray-400 text-sm mb-8">Ingresa el PIN de 4 dígitos para subir fotos</p>
+            <div className="text-5xl mb-4">{deleteMode ? '🗑️' : '🔐'}</div>
+            <h2 className="text-xl font-black text-white mb-1">
+              {deleteMode ? 'Eliminar foto' : 'Acceso restringido'}
+            </h2>
+            <p className="text-gray-400 text-sm mb-8">
+              {deleteMode ? 'Ingresa el PIN para confirmar la eliminación' : 'Ingresa el PIN de 4 dígitos para subir fotos'}
+            </p>
 
             {/* PIN inputs */}
             <div className="flex gap-3 justify-center mb-6">
@@ -323,7 +372,7 @@ export default function GalleryPage({ navigate }) {
 
             <div className="flex gap-3">
               <button
-                onClick={() => { setShowPinModal(false); setPin(['', '', '', '']); setPinError(false); }}
+                onClick={() => { setShowPinModal(false); setPin(['', '', '', '']); setPinError(false); setDeleteMode(false); }}
                 className="flex-1 bg-gray-800 hover:bg-gray-700 text-gray-300 font-bold py-3 rounded-xl transition-colors"
               >
                 Cancelar
