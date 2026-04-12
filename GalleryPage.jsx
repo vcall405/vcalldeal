@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-const SECRET_PIN = '0961';
-const STORAGE_KEY = 'isidra_gallery_v1';
+const API_URL = 'https://gallery.vcallia.com';
+const SECRET_PIN = '0961'; // client-side UX only; server validates too
 
 function compressImage(file, maxWidth = 1400, quality = 0.78) {
   return new Promise((resolve) => {
@@ -20,35 +20,29 @@ function compressImage(file, maxWidth = 1400, quality = 0.78) {
   });
 }
 
-function loadPhotos() {
-  try {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-  } catch {
-    return [];
-  }
-}
-
-function savePhotos(photos) {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(photos));
-    return true;
-  } catch {
-    return false; // storage full
-  }
-}
-
 export default function GalleryPage({ navigate }) {
-  const [photos, setPhotos] = useState(loadPhotos);
+  const [photos, setPhotos] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [lightbox, setLightbox] = useState(null); // index of open photo
   const [showPinModal, setShowPinModal] = useState(false);
   const [pin, setPin] = useState(['', '', '', '']);
   const [pinError, setPinError] = useState(false);
   const [uploading, setUploading] = useState(false);
-  const [storageError, setStorageError] = useState(false);
+  const [uploadError, setUploadError] = useState(false);
   const fileInputRef = useRef(null);
   const pinRefs = [useRef(), useRef(), useRef(), useRef()];
+  const confirmedPinRef = useRef(''); // holds PIN between modal confirm and file upload
 
-  // Close lightbox on Escape
+  // Load photos from API on mount
+  useEffect(() => {
+    fetch(`${API_URL}/api/photos`)
+      .then((r) => r.json())
+      .then(setPhotos)
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
+
+  // Close lightbox on Escape / arrow keys
   useEffect(() => {
     const handler = (e) => {
       if (e.key === 'Escape') setLightbox(null);
@@ -104,7 +98,8 @@ export default function GalleryPage({ navigate }) {
     }
   };
 
-  const confirmPin = () => {
+  const confirmPin = (full) => {
+    confirmedPinRef.current = full;
     setShowPinModal(false);
     setPin(['', '', '', '']);
     setPinError(false);
@@ -115,27 +110,39 @@ export default function GalleryPage({ navigate }) {
     const files = Array.from(e.target.files);
     if (!files.length) return;
     setUploading(true);
-    setStorageError(false);
+    setUploadError(false);
 
     const newPhotos = [...photos];
     for (const file of files) {
       if (!file.type.startsWith('image/')) continue;
       const compressed = await compressImage(file);
-      newPhotos.push({
-        id: `${Date.now()}-${Math.random().toString(36).slice(2)}`,
-        src: compressed,
-        caption: '',
-        uploadedAt: new Date().toLocaleDateString('es-US', { year: 'numeric', month: 'long', day: 'numeric' }),
+      const uploadedAt = new Date().toLocaleDateString('es-US', {
+        year: 'numeric', month: 'long', day: 'numeric',
       });
+
+      try {
+        const res = await fetch(`${API_URL}/api/upload`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ pin: confirmedPinRef.current, src: compressed, uploadedAt }),
+        });
+
+        if (res.ok) {
+          const photo = await res.json();
+          newPhotos.push(photo);
+        } else {
+          setUploadError(true);
+          break;
+        }
+      } catch {
+        setUploadError(true);
+        break;
+      }
     }
 
-    const ok = savePhotos(newPhotos);
-    if (ok) {
-      setPhotos(newPhotos);
-    } else {
-      setStorageError(true);
-    }
+    setPhotos(newPhotos);
     setUploading(false);
+    confirmedPinRef.current = '';
     e.target.value = '';
   };
 
@@ -190,13 +197,17 @@ export default function GalleryPage({ navigate }) {
 
       {/* ── GALLERY GRID ── */}
       <section className="px-4 py-12 max-w-7xl mx-auto">
-        {storageError && (
+        {uploadError && (
           <div className="mb-6 bg-red-900/40 border border-red-500/50 rounded-2xl p-4 text-red-300 text-sm text-center">
-            ⚠️ Espacio de almacenamiento lleno. Elimina algunas fotos para continuar.
+            ⚠️ Error al subir las fotos. Verifica tu conexión e intenta de nuevo.
           </div>
         )}
 
-        {photos.length === 0 ? (
+        {loading ? (
+          <div className="text-center py-24">
+            <p className="text-gray-400 text-xl font-semibold animate-pulse">Cargando fotos...</p>
+          </div>
+        ) : photos.length === 0 ? (
           <div className="text-center py-24">
             <p className="text-7xl mb-6">🏝️</p>
             <p className="text-gray-400 text-xl font-semibold">Aún no hay fotos</p>
