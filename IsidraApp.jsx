@@ -566,7 +566,25 @@ export default function IsidraApp({ navigate }) {
         <p className="text-xl font-black text-white mb-1">Isidra Cosme</p>
         <p className="text-blue-400 text-sm font-semibold mb-3">{tx.footerSub}</p>
         <p className="text-gray-500 text-sm">📞 +1 (787) 579-7628</p>
-        <p className="text-gray-600 text-xs mt-4">{tx.footerRights}</p>
+
+        {/* inCruises Socio Independiente badge */}
+        <div className="flex items-center justify-center gap-4 mt-8 mb-2">
+          {/* Orange "in" box */}
+          <div className="w-16 h-16 bg-amber-500 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg">
+            <span className="text-white font-black italic text-3xl leading-none" style={{ fontFamily: 'Georgia, serif' }}>in</span>
+          </div>
+          {/* Text */}
+          <div className="text-left">
+            <div className="text-[#4A7FAA] font-black text-4xl leading-none tracking-tight">
+              Cruises<sup className="text-lg">®</sup>
+            </div>
+            <div className="text-[#4A7FAA] font-bold text-xs tracking-[0.2em] uppercase mt-1">
+              Socio Independiente
+            </div>
+          </div>
+        </div>
+
+        <p className="text-gray-600 text-xs mt-6">{tx.footerRights}</p>
       </footer>
 
     </div>
