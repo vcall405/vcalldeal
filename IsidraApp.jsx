@@ -110,7 +110,7 @@ export default function IsidraApp({ navigate }) {
         { icon: '💵', title: 'Ingreso Recurrente', desc: 'Gana mínimo $5 por cada $100 de producción recurrente de tu equipo, mes tras mes.' },
         { icon: '🏅', title: 'Team Leadership Bonus', desc: 'Bonos mensuales automáticos según tu rango, desde $300 hasta $255,000 al mes.' },
         { icon: '🚀', title: 'Negocio desde casa', desc: 'Sin inventario, sin local, sin jefes. Solo tú, tu teléfono y tu red de contactos.' },
-        { icon: '✈️', title: 'Viaja mientras ganas', desc: 'Tu membresía te permite disfrutar el producto que promotes. Vive la experiencia de primera mano.' },
+        { icon: '✈️', title: 'Viaja mientras ganas', desc: 'Tu membresía te permite disfrutar el producto que promueves. Vive la experiencia de primera mano.' },
       ],
       ranksBadge: 'Rangos de Liderazgo',
       ranksTitle: 'Tu crecimiento, recompensado',
