@@ -8,11 +8,14 @@ const PLANS = [
     name: 'Starter',
     price: '$50',
     period: '/mes',
+    activation: '$50',
     color: 'border-blue-500',
     badge: '',
-    points: '100 Reward Points/mes',
+    points: '100 Reward Points al activar',
+    bookings: '2 reservas INsider/año',
     features: [
       '17% descuento instantáneo en cruceros',
+      'Reduce precio de cruceros hasta 50%',
       'Acceso a hoteles y resorts',
       'Reward Points acumulables',
       'Sin contratos a largo plazo',
@@ -23,14 +26,16 @@ const PLANS = [
     name: 'Classic',
     price: '$100',
     period: '/mes',
+    activation: '$200',
     color: 'border-amber-500',
     badge: 'Más Popular',
-    points: '200 Reward Points/mes',
+    points: '350 Reward Points al activar',
+    bookings: '5 reservas INsider/año',
     features: [
       '17% descuento instantáneo en cruceros',
+      'Reduce precio de cruceros hasta 50%',
+      'Doble de Reward Points por pagos',
       'Acceso a hoteles y resorts',
-      'Doble de Reward Points',
-      'Reducción del precio hasta 50–100%',
       'Sin contratos a largo plazo',
       'Garantía de 14 días',
     ],
@@ -39,14 +44,16 @@ const PLANS = [
     name: 'Premium',
     price: '$250',
     period: '/mes',
+    activation: '$500',
     color: 'border-purple-500',
     badge: 'Mayor beneficio',
-    points: '500 Reward Points/mes',
+    points: '800 Reward Points al activar',
+    bookings: 'Reservas INsider ilimitadas',
     features: [
       '17% descuento instantáneo en cruceros',
-      'Acumulación acelerada de puntos',
-      'Acceso a viajes de lujo y alta gama',
-      'Reducción del precio hasta 50–100%',
+      'Reservas INsider ilimitadas',
+      'Doble de Reward Points por pagos',
+      'Cruceros, hoteles y resorts premium',
       'Sin contratos a largo plazo',
       'Garantía de 14 días',
     ],
@@ -94,7 +101,7 @@ export default function IsidraApp({ navigate }) {
       plansSub: 'Sin contratos a largo plazo. Cancela cuando quieras. Garantía de 14 días.',
       plansPoints: 'Reward Points:',
       plansJoin: 'Quiero este plan',
-      plansActivation: '* Cuota de activación única de $100 USD al inscribirse.',
+      plansActivation: '* El costo de inicio se paga una sola vez al inscribirse.',
       benefitsBadge: 'Beneficios del Club',
       benefitsTitle: '¿Por qué miles de familias eligen inCruises?',
       benefits: [
@@ -162,7 +169,7 @@ export default function IsidraApp({ navigate }) {
       plansSub: 'No long-term contracts. Cancel anytime. 14-day money-back guarantee.',
       plansPoints: 'Reward Points:',
       plansJoin: 'I want this plan',
-      plansActivation: '* One-time $100 USD activation fee upon enrollment.',
+      plansActivation: '* Starting cost is a one-time fee paid at enrollment.',
       benefitsBadge: 'Club Benefits',
       benefitsTitle: 'Why thousands of families choose inCruises',
       benefits: [
@@ -380,7 +387,9 @@ export default function IsidraApp({ navigate }) {
                   <span className="text-4xl font-black text-gray-900">{plan.price}</span>
                   <span className="text-gray-600 text-sm mb-1">{plan.period}</span>
                 </div>
-                <p className="text-xs text-amber-600 font-semibold mb-4">{tx.plansPoints} {plan.points}</p>
+                <p className="text-xs text-gray-500 font-semibold mb-1">{lang === 'es' ? 'Costo de inicio' : 'Starting cost'}: <span className="text-gray-700">{plan.activation}</span></p>
+                <p className="text-xs text-blue-600 font-semibold mb-1">📅 {plan.bookings}</p>
+                <p className="text-xs text-amber-600 font-semibold mb-4">⭐ {plan.points}</p>
                 <ul className="space-y-2 mb-6 flex-1">
                   {plan.features.map((f) => (
                     <li key={f} className="flex items-start gap-2 text-gray-700 text-sm">
@@ -551,7 +560,7 @@ export default function IsidraApp({ navigate }) {
                 </div>
               </a>
               <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 space-y-3 text-sm text-gray-300">
-                <p>🚢 {lang === 'es' ? 'Miembro Starter desde $50/mes + $100 activación' : 'Starter Membership from $50/mo + $100 activation'}</p>
+                <p>🚢 {lang === 'es' ? 'Miembro Starter: $50 inicio + $50/mes' : 'Starter Membership: $50 starting + $50/mo'}</p>
                 <p>💼 {lang === 'es' ? 'Partner desde $395 (activación única)' : 'Partner from $395 (one-time activation)'}</p>
                 <p>✅ {lang === 'es' ? 'Garantía de devolución de 14 días' : '14-day money-back guarantee'}</p>
                 <p>🌍 {lang === 'es' ? 'Disponible en 190+ países' : 'Available in 190+ countries'}</p>
