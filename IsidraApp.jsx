@@ -471,12 +471,8 @@ export default function IsidraApp({ navigate }) {
         <div className="relative z-10 max-w-4xl mx-auto">
           <div className="bg-white/8 backdrop-blur-md border border-white/15 rounded-3xl p-8 md:p-12 flex flex-col md:flex-row gap-10 items-center">
             <div className="flex-shrink-0">
-              <div className="w-40 h-40 rounded-full overflow-hidden shadow-2xl ring-4 ring-amber-500/50">
-                <img
-                  src="isidra.jpg"
-                  alt="Isidra Cosme"
-                  className="w-full h-full object-cover object-top"
-                />
+              <div className="w-40 h-40 rounded-full bg-gradient-to-br from-blue-600 to-amber-500 flex items-center justify-center text-7xl shadow-2xl">
+                👩
               </div>
             </div>
             <div>
