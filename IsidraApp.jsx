@@ -125,7 +125,7 @@ export default function IsidraApp({ navigate }) {
       ranksTlb: 'Bono mensual',
       ranksReq: 'Volumen requerido',
       ranksRecurring: '+ Ingreso recurrente en todos los rangos según el volumen de tu equipo',
-      partnerJoin: 'Activación como Partner: $395 (cuota única)',
+      partnerJoin: 'Activación como Partner: $95 (cuota única)',
       aboutBadge: 'Tu Representante',
       aboutTitle: 'Isidra Cosme',
       aboutSub: 'Partner de inGroup International / inCruises',
@@ -193,7 +193,7 @@ export default function IsidraApp({ navigate }) {
       ranksTlb: 'Monthly bonus',
       ranksReq: 'Required volume',
       ranksRecurring: '+ Recurring income at all ranks based on your team\'s volume',
-      partnerJoin: 'Partner activation: $395 (one-time fee)',
+      partnerJoin: 'Partner activation: $95 (one-time fee)',
       aboutBadge: 'Your Representative',
       aboutTitle: 'Isidra Cosme',
       aboutSub: 'Partner at inGroup International / inCruises',
@@ -565,7 +565,7 @@ export default function IsidraApp({ navigate }) {
               </a>
               <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 space-y-3 text-sm text-gray-300">
                 <p>🚢 {lang === 'es' ? 'Miembro Starter: $50 inicio + $50/mes' : 'Starter Membership: $50 starting + $50/mo'}</p>
-                <p>💼 {lang === 'es' ? 'Partner desde $395 (activación única)' : 'Partner from $395 (one-time activation)'}</p>
+                <p>💼 {lang === 'es' ? 'Partner desde $95 (activación única)' : 'Partner from $95 (one-time activation)'}</p>
                 <p>✅ {lang === 'es' ? 'Garantía de devolución de 14 días' : '14-day money-back guarantee'}</p>
                 <p>🌍 {lang === 'es' ? 'Disponible en 190+ países' : 'Available in 190+ countries'}</p>
               </div>
