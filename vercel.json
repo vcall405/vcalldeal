@@ -1,0 +1,6 @@
+{
+  "env": {
+    "BLOB_READ_WRITE_TOKEN": "@vercel_blob_rw"
+  },
+  "envPrefix": "BLOB_"
+}
