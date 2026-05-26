@@ -1,6 +1,4 @@
 {
-  "env": {
-    "BLOB_READ_WRITE_TOKEN": "@vercel_blob_rw"
-  },
-  "envPrefix": "BLOB_"
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist"
 }
