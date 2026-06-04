@@ -19,7 +19,7 @@ async function loadPhotos() {
           return {
             id: matches[1],
             uploadedAt: decodeURIComponent(matches[2]),
-            src: b.downloadUrl,
+            src: b.url,
           };
         }
         return null;
@@ -100,7 +100,7 @@ export default async function handler(req, res) {
 
       const { blobs } = await list({ prefix: `photo-${id}--` });
       if (blobs.length > 0) {
-        await del(blobs[0].pathname);
+        await del(blobs[0].url);
       }
 
       photosCache = photosCache.filter(p => p.id !== id);
