@@ -16,6 +16,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm install -g vercel
-      - run: vercel --token ${{ secrets.VERCEL_TOKEN }} --yes --prod
+      - run: vercel --yes --prod
         env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           BLOB_READ_WRITE_TOKEN: ${{ secrets.BLOB_READ_WRITE_TOKEN }}
